@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Ficha | Thrones of Westeros</title>
+    
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Pro -->
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-light.css">
+    
+    <!-- Chosen CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
+    
+    <style>
+        /* Variables CSS */
+        :root {
+            --ice-blue: #93c5fd;
+            --frost-accent: #38bdf8;
+            --deep-void: #050608;
+            --slate-frost: #0f1217;
+            --slate-ethereal: #1a1f26;
+            --border-ice: rgba(147, 197, 253, 0.15);
+            --white-5: rgba(255, 255, 255, 0.05);
+            --white-10: rgba(255, 255, 255, 0.1);
+            --white-20: rgba(255, 255, 255, 0.2);
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+        }
+
+        /* Reset y estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--deep-void);
+            color: var(--slate-400);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            line-height: 1.5;
+            padding: 2rem;
+        }
+
+        ::selection {
+            background-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .cinzel {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Glass panel effect */
+        .glass-panel {
+            background: rgba(15, 18, 23, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 197, 253, 0.1);
+        }
+
+        /* Main container */
+        .main-container {
+            max-width: 1600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            font-size: 0.625rem;
+            font-weight: 700;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--slate-500);
+        }
+
+        .breadcrumb a {
+            color: var(--slate-500);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--frost-accent);
+        }
+
+        .breadcrumb i {
+            font-size: 0.75rem;
+            font-weight: 300;
+        }
+
+        .breadcrumb-current {
+            color: var(--frost-accent);
+        }
+
+        /* Title section */
+        .title-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+        }
+
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.25rem;
+            color: white;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.025em;
+            line-height: 1;
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        .main-title span {
+            color: var(--frost-accent);
+        }
+
+        .title-right {
+            text-align: right;
+        }
+
+        .forge-label {
+            font-size: 0.5625rem;
+            font-weight: 900;
+            letter-spacing: 0.4em;
+            color: var(--frost-accent);
+            text-transform: uppercase;
+        }
+
+        .forge-version {
+            font-size: 0.5625rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--slate-600);
+            text-transform: uppercase;
+        }
+
+        /* Grid layout - dos columnas */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .grid {
+                grid-template-columns: 7fr 5fr;
+            }
+        }
+
+        /* Form sections */
+        .section {
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-icon {
+            color: var(--frost-accent);
+            font-size: 1.5rem;
+            font-weight: 300;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.125rem;
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Form grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .form-grid .full-width {
+                grid-column: span 2;
+            }
+        }
+
+        .form-label {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 0.625rem;
+            color: var(--frost-accent);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--white-10);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1rem;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--frost-accent);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Chosen customization */
+        .chosen-container-multi .chosen-choices {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid var(--white-10) !important;
+            border-radius: 0 !important;
+            padding: 0.5rem !important;
+        }
+
+        .chosen-container-multi .chosen-choices li.search-field input[type=text] {
+            color: rgba(255, 255, 255, 0.5) !important;
+            font-family: 'Montserrat', sans-serif !important;
+            font-size: 0.75rem !important;
+            height: auto !important;
+            padding: 0.25rem !important;
+        }
+
+        .chosen-container-multi .chosen-choices li.search-choice {
+            background: rgba(56, 189, 248, 0.2) !important;
+            border: 1px solid rgba(56, 189, 248, 0.3) !important;
+            border-radius: 0 !important;
+            color: white !important;
+            font-family: 'Montserrat', sans-serif !important;
+            font-size: 0.7rem !important;
+            padding: 0.25rem 1.5rem 0.25rem 0.5rem !important;
+        }
+
+        .chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>') !important;
+            background-size: contain !important;
+            top: 0.35rem !important;
+        }
+
+        .chosen-container .chosen-drop {
+            background: var(--slate-ethereal) !important;
+            border: 1px solid var(--border-ice) !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+
+        .chosen-container .chosen-results li.highlighted {
+            background: rgba(56, 189, 248, 0.2) !important;
+            color: white !important;
+        }
+
+        .chosen-container .chosen-results li.group-result {
+            color: var(--frost-accent) !important;
+            font-family: 'Cinzel', serif !important;
+            font-size: 0.7rem !important;
+            text-transform: uppercase !important;
+            background: var(--slate-frost) !important;
+        }
+
+        .chosen-container .chosen-results li {
+            color: var(--slate-400) !important;
+            font-size: 0.75rem !important;
+            padding: 0.5rem !important;
+        }
+
+        /* Metallic button */
+        .metallic-button {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 900;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            padding: 1rem 2rem;
+            border: 1px solid var(--white-10);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .metallic-button:hover {
+            filter: brightness(1.1);
+        }
+
+        .metallic-button i {
+            transition: transform 0.3s;
+            font-weight: 300;
+        }
+
+        .metallic-button:hover i {
+            transform: translateX(0.25rem);
+        }
+
+        /* Code block - altura automática con scroll */
+        .code-block {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--white-5);
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: var(--frost-accent);
+            position: relative;
+            background-image: radial-gradient(circle at 2px 2px, rgba(147, 197, 253, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+            margin-bottom: 1rem;
+            max-height: 500px;
+            min-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-block code {
+            display: block;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: #94a3b8;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .code-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            color: var(--slate-500);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .code-copy-button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: none;
+            color: var(--frost-accent);
+            font-size: 0.625rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .code-copy-button:hover {
+            color: white;
+        }
+
+        .code-copy-button i {
+            font-weight: 300;
+            font-size: 0.875rem;
+        }
+
+        .code-note {
+            font-size: 0.5625rem;
+            color: var(--slate-600);
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            line-height: 1.6;
+        }
+
+        /* Sticky sidebar */
+        .sticky-sidebar {
+            position: sticky;
+            top: 2rem;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--frost-accent);
+            color: var(--deep-void);
+            padding: 1rem 2rem;
+            border-radius: 0;
+            font-size: 0.875rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateX(calc(100% + 2rem));
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast i {
+            font-size: 1.25rem;
+            font-weight: 300;
+        }
+
+        /* Utility classes */
+        .space-y-8 > * + * {
+            margin-top: 2rem;
+        }
+
+        .space-y-6 > * + * {
+            margin-top: 1.5rem;
+        }
+
+        .space-y-4 > * + * {
+            margin-top: 1rem;
+        }
+
+        .space-y-2 > * + * {
+            margin-top: 0.5rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 0.75rem;
+        }
+
+        .mb-8 {
+            margin-bottom: 2rem;
+        }
+
+        .pt-4 {
+            padding-top: 1rem;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-3 {
+            gap: 0.75rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .w-full {
+            width: 100%;
+        }
+
+        .text-xs {
+            font-size: 0.75rem;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .font-black {
+            font-weight: 900;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        .tracking-widest {
+            letter-spacing: 0.1em;
+        }
+
+        .text-white {
+            color: white;
+        }
+
+        .text-slate-500 {
+            color: var(--slate-500);
+        }
+
+        .text-slate-600 {
+            color: var(--slate-600);
+        }
+
+        .text-frost-accent {
+            color: var(--frost-accent);
+        }
+
+        .border-white\/5 {
+            border-color: var(--white-5);
+        }
+
+        .border-white\/10 {
+            border-color: var(--white-10);
+        }
+
+        .rounded-none {
+            border-radius: 0;
+        }
+
+        .transition-all {
+            transition: all 0.3s;
+        }
+
+        .hover\:text-white:hover {
+            color: white;
+        }
+
+        .focus\:border-frost-accent:focus {
+            border-color: var(--frost-accent);
+        }
+
+        .focus\:ring-0:focus {
+            outline: none;
+        }
+
+        .absolute {
+            position: absolute;
+        }
+
+        .fixed {
+            position: fixed;
+        }
+
+        .sticky {
+            position: sticky;
+        }
+
+        .top-2 {
+            top: 0.5rem;
+        }
+
+        .right-2 {
+            right: 0.5rem;
+        }
+
+        .z-1000 {
+            z-index: 1000;
+        }
+
+        .overflow-x-auto {
+            overflow-x: auto;
+        }
+
+        .block {
+            display: block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .max-w-[1600px] {
+            max-width: 1600px;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (min-width: 768px) {
+            .md\:col-span-2 {
+                grid-column: span 2;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:col-span-7 {
+                grid-column: span 7;
+            }
+            
+            .lg\:col-span-5 {
+                grid-column: span 5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast notification -->
+    <div id="toast" class="toast">
+        <i class="fa-regular fa-check-circle"></i>
+        <span>Código copiado al portapapeles</span>
+    </div>
+
+    <div class="main-container">
+        <div class="title-section">
+            <div>
+                <h2 class="main-title">Generador de ficha</span></h2>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- Columna izquierda: Generador -->
+            <div class="space-y-8">
+                <form method="POST" action="#" name="formu" class="formu">
+                    <section class="glass-panel section">
+                        <div class="section-header">
+                            <i class="fa-regular fa-image section-icon"></i>
+                            <h3 class="section-title">Imagen del Personaje</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="full-width">
+                                <label class="form-label">Enlace de la imagen de tu personaje:</label>
+                                <input type="text" name="img" class="form-input" placeholder="https://imgur.com/...">
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="glass-panel section">
+                        <div class="section-header">
+                            <i class="fa-regular fa-pen section-icon"></i>
+                            <h3 class="section-title">I. Registro de Linaje</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div>
+                                <label class="form-label">Nombre OOC:</label>
+                                <input type="text" name="occ" class="form-input" placeholder="Tu Nick">
+                            </div>
+                            <div>
+                                <label class="form-label">Nombre IC:</label>
+                                <input type="text" name="ic" class="form-input" placeholder="Ej. Jon Snow">
+                            </div>
+                            <div>
+                                <label class="form-label">Edad:</label>
+                                <input type="text" name="edad" class="form-input" placeholder="25">
+                            </div>
+                            <div>
+                                <label class="form-label">Género:</label>
+                                <input type="text" name="genero" class="form-input" placeholder="Masculino">
+                            </div>
+                            <div>
+                                <label class="form-label">Lugar de Origen:</label>
+                                <input type="text" name="origen" class="form-input" placeholder="El Norte">
+                            </div>
+                            <div>
+                                <label class="form-label">Oficio:</label>
+                                <input type="text" name="oficio" class="form-input" placeholder="Guerrero">
+                            </div>
+                            <div>
+                                <label class="form-label">Estado civil:</label>
+                                <input type="text" name="estadocivil" class="form-input" placeholder="Soltero">
+                            </div>
+                            <div>
+                                <label class="form-label">Afiliación (Casa/Facción):</label>
+                                <input type="text" name="afi" class="form-input" placeholder="Casa Stark">
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="glass-panel section">
+                        <div class="section-header">
+                            <i class="fa-regular fa-medal section-icon"></i>
+                            <h3 class="section-title">II. Rasgos del Personaje</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="full-width">
+                                <label class="form-label">Ascendencia:</label>
+                                <select name="ascendencia" class="form-select">
+                                    <option hidden selected disabled value=""></option>
+                                    <option value="Descendiente de los Primeros Hombres">Descendiente de los Primeros Hombres</option>
+                                    <option value="Descendiente de los Ándalos">Descendiente de los Ándalos</option>
+                                    <option value="Descendiente de los Rhoynar">Descendiente de los Rhoynar</option>
+                                    <option value="Valyrio">Valyrio</option>
+                                    <option value="Ascendencia Única">Ascendencia Única</option>
+                                </select>
+                            </div>
+                            <div class="full-width">
+                                <label class="form-label">Religión:</label>
+                                <select name="religion" class="form-select">
+                                    <option hidden selected disabled value=""></option>
+                                    <option value="Fe de los Siete">Fe de los Siete</option>
+                                    <option value="Dioses Antiguos">Dioses Antiguos</option>
+                                    <option value="Dios Ahogado">Dios Ahogado</option>
+                                    <option value="R'hllor">R'hllor</option>
+                                    <option value="Muchos Rostros">Muchos Rostros</option>
+                                    <option value="Cabra Negra">Cabra Negra</option>
+                                </select>
+                            </div>
+                            <div class="full-width">
+                                <label class="form-label">Constitución:</label>
+                                <select name="constitucion" class="form-select">
+                                    <option hidden selected disabled value=""></option>
+                                    <option value="Fuerte">Fuerte</option>
+                                    <option value="Robusto">Robusto</option>
+                                    <option value="Atlético">Atlético</option>
+                                    <option value="Ágil">Ágil</option>
+                                    <option value="Resistente">Resistente</option>
+                                </select>
+                            </div>
+                            <div class="full-width">
+                                <label class="form-label">Rasgos (selección múltiple):</label>
+                                <select id="dropdown" name="rasgos" class="multipleChosen" multiple="true">
+                                    <optgroup label="Rasgos Positivos">
+                                        <option value="Robusto">Robusto</option>
+                                        <option value="Musculoso">Musculoso</option>
+                                        <option value="Flexible">Flexible</option>
+                                        <option value="Ligero">Ligero</option>
+                                        <option value="Armero">Armero</option>
+                                        <option value="Atractivo">Atractivo</option>
+                                        <option value="Sociable">Sociable</option>
+                                        <option value="Excitable">Excitable</option>
+                                        <option value="Ambidiestro">Ambidiestro</option>
+                                        <option value="Preciso">Preciso</option>
+                                        <option value="Autoridad">Autoridad</option>
+                                        <option value="Reflejos Excepcionales">Reflejos Excepcionales</option>
+                                        <option value="Regateador">Regateador</option>
+                                        <option value="Aprendizaje Acelerado">Aprendizaje Acelerado</option>
+                                        <option value="Curiosidad Intelectual">Curiosidad Intelectual</option>
+                                        <option value="Valiente">Valiente</option>
+                                        <option value="Resistencia Heroica">Resistencia Heroica</option>
+                                        <option value="Alerta Constante">Alerta Constante</option>
+                                        <option value="Sanador Nato">Sanador Nato</option>
+                                        <option value="Cicatrización Rápida">Cicatrización Rápida</option>
+                                        <option value="Regeneración">Regeneración</option>
+                                        <option value="Primer Movimiento">Primer Movimiento</option>
+                                        <option value="Trabajo en Equipo">Trabajo en Equipo</option>
+                                        <option value="Táctico">Táctico</option>
+                                        <option value="Audaz">Audaz</option>
+                                        <option value="Afortunado">Afortunado</option>
+                                        <option value="Gourmet">Gourmet</option>
+                                    </optgroup>
+                                    <optgroup label="Rasgos Negativos">
+                                        <option value="Sobrepeso">Sobrepeso</option>
+                                        <option value="Enclenque">Enclenque</option>
+                                        <option value="Problemas de Equilibrio">Problemas de Equilibrio</option>
+                                        <option value="Cicatriz">Cicatriz</option>
+                                        <option value="Tullido Brazo/Mano">Tullido: Brazo/Mano</option>
+                                        <option value="Tullido Pierna/Pie">Tullido: Pierna/Pie</option>
+                                        <option value="Sordo">Sordo</option>
+                                        <option value="Ciego">Ciego</option>
+                                        <option value="Miope/Tuerto">Miope/Tuerto</option>
+                                        <option value="Reflejos Nulos">Reflejos Nulos</option>
+                                        <option value="Pacifista">Pacifista</option>
+                                        <option value="Desdichado">Desdichado</option>
+                                        <option value="Pesimista">Pesimista</option>
+                                        <option value="Vengativo">Vengativo</option>
+                                        <option value="Agotamiento Rápido">Agotamiento Rápido</option>
+                                        <option value="Mudo">Mudo</option>
+                                        <option value="Fealdad">Fealdad</option>
+                                        <option value="Aislado">Aislado</option>
+                                        <option value="Cobarde">Cobarde</option>
+                                        <option value="Derrochador">Derrochador</option>
+                                        <option value="Determinación Inquebrantable">Determinación Inquebrantable</option>
+                                        <option value="Aprendizaje Difícil">Aprendizaje Difícil</option>
+                                        <option value="Celoso">Celoso</option>
+                                        <option value="Glotón">Glotón</option>
+                                        <option value="Cicatrización Lenta">Cicatrización Lenta</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="glass-panel section">
+                        <div class="section-header">
+                            <i class="fa-regular fa-compass section-icon"></i>
+                            <h3 class="section-title">III. Información Adicional</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div>
+                                <label class="form-label">Ubicación actual:</label>
+                                <input type="text" name="ubicacion" class="form-input" placeholder="Invernalia">
+                            </div>
+                            <div>
+                                <label class="form-label">Asentamiento:</label>
+                                <input type="text" name="asentamiento" class="form-input" placeholder="Invernalia">
+                            </div>
+                            <div>
+                                <label class="form-label">Región:</label>
+                                <input type="text" name="region" class="form-input" placeholder="El Norte">
+                            </div>
+                            <div>
+                                <label class="form-label">Orientación sexual:</label>
+                                <input type="text" name="orientacion" class="form-input" placeholder="Heterosexual">
+                            </div>
+                            <div>
+                                <label class="form-label">Rango:</label>
+                                <input type="text" name="rango" class="form-input" placeholder="I">
+                            </div>
+                            <div>
+                                <label class="form-label">Estilo de combate:</label>
+                                <input type="text" name="estilo_combate" class="form-input" placeholder="Espada a dos manos">
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Botón movido debajo del formulario -->
+                    <div class="pt-4">
+                        <button type="button" class="metallic-button" onclick="generar()">
+                            <span>Generar Código IC</span>
+                            <i class="fa-regular fa-bolt"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Columna derecha: Código -->
+            <div class="sticky-sidebar space-y-8">
+                <div class="space-y-4">
+                    <div class="code-header">
+                        <h3 class="code-title">Pergamino de Código</h3>
+                        <button class="code-copy-button" onclick="copiarCodigo()">
+                            <i class="fa-regular fa-copy"></i>
+                            Copiar Código
+                        </button>
+                    </div>
+                    <div class="code-block">
+                        <code id="code" class="block leading-loose whitespace-pre-wrap"></code>
+                    </div>
+                    <p class="code-note">
+                        Copia este código y pégalo en el foro de Creación de Personaje. No olvides adjuntar tu historia en el post correspondiente.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
+    
+    <script>
+        // Inicializar Chosen
+        $(document).ready(function() {
+            $('.multipleChosen').chosen({
+                placeholder_text_multiple: "Selecciona los rasgos...",
+                width: "100%"
+            });
+            
+            // Inicializar con código vacío
+            document.getElementById('code').innerHTML = '';
+        });
+
+        // Función para escapar HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Función para obtener los rasgos seleccionados por categoría
+        function getSelectedOptions(category) {
+            var select = document.querySelector('select[name="rasgos"]');
+            var selectedOptions = [];
+            
+            if (select) {
+                var options = select.options;
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].selected && options[i].parentNode.label === category) {
+                        selectedOptions.push(options[i].value);
+                    }
+                }
+            }
+
+            return selectedOptions;
+        }
+
+        // Función para mostrar el toast
+        function mostrarToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Función para copiar el código
+        function copiarCodigo() {
+            const codigo = document.getElementById('code').innerText;
+            if (codigo && codigo.trim() !== '') {
+                navigator.clipboard.writeText(codigo).then(() => {
+                    mostrarToast();
+                }).catch(err => {
+                    console.error('Error al copiar: ', err);
+                    // Fallback para navegadores antiguos
+                    const textarea = document.createElement('textarea');
+                    textarea.value = codigo;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    mostrarToast();
+                });
+            }
+        }
+
+        // Función principal de generación
+        function generar() {
+            try {
+                // Obtener valores del formulario
+                var img = document.querySelector('input[name="img"]')?.value || 'https://dummyimage.com/260x300/808080/111.png';
+                var ooc = document.querySelector('input[name="occ"]')?.value || 'Nombre de usuario en Hobba';
+                var ic = document.querySelector('input[name="ic"]')?.value || 'Nombre Apellido';
+                var edad = document.querySelector('input[name="edad"]')?.value || 'Edad del personaje';
+                var genero = document.querySelector('input[name="genero"]')?.value || 'Género del personaje';
+                var origen = document.querySelector('input[name="origen"]')?.value || 'Origen del personaje';
+                var oficio = document.querySelector('input[name="oficio"]')?.value || 'Ocupación del personaje';
+                var estadocivil = document.querySelector('input[name="estadocivil"]')?.value || 'Estado civil del personaje';
+                var afi = document.querySelector('input[name="afi"]')?.value || 'Casa/Facción a la que pertenece';
+                
+                // Nuevos campos
+                var ascendencia = document.querySelector('select[name="ascendencia"]')?.value || 'Ascendencia';
+                var religion = document.querySelector('select[name="religion"]')?.value || 'Religión';
+                var constitucion = document.querySelector('select[name="constitucion"]')?.value || 'Constitución';
+                var ubicacion = document.querySelector('input[name="ubicacion"]')?.value || '¿En qué región reside el personaje?';
+                var asentamiento = document.querySelector('input[name="asentamiento"]')?.value || 'Asentamiento';
+                var region = document.querySelector('input[name="region"]')?.value || 'Región';
+                var orientacion = document.querySelector('input[name="orientacion"]')?.value || 'Sexualidad del personaje';
+                var rango = document.querySelector('input[name="rango"]')?.value || 'I';
+                var estilo_combate = document.querySelector('input[name="estilo_combate"]')?.value || 'Estilo de combate del personaje';
+
+                // Obtener rasgos por categoría
+                var rasgosPositivos = getSelectedOptions('Rasgos Positivos');
+                var rasgosNegativos = getSelectedOptions('Rasgos Negativos');
+                
+                // Formatear rasgos
+                var virtudesHTML = '';
+                if (rasgosPositivos.length > 0) {
+                    virtudesHTML = rasgosPositivos.map(r => '<span class="virtud"><strong class="virtud">Virtud</strong> ' + r + '</span>').join('\n');
+                } else {
+                    virtudesHTML = '<span class="virtud"><strong class="virtud">Virtud</strong></span>\n<span class="virtud"><strong class="virtud">Virtud</strong></span>';
+                }
+                
+                var defectosHTML = '';
+                if (rasgosNegativos.length > 0) {
+                    defectosHTML = rasgosNegativos.map(d => '<span class="defecto"><strong class="defecto">Defecto</strong> ' + d + '</span>').join('\n');
+                } else {
+                    defectosHTML = '<span class="defecto"><strong class="defecto">Defecto</strong></span>\n<span class="defecto"><strong class="defecto">Defecto</strong></span>';
+                }
+                
+                // Obtener la fecha actual
+                var fechaActual = new Date();
+                var dia = fechaActual.getDate();
+                var mes = fechaActual.getMonth() + 1;
+                var anio = fechaActual.getFullYear();
+
+                var fechaFormateada = (dia < 10 ? '0' : '') + dia + '/' + (mes < 10 ? '0' : '') + mes + '/' + anio;
+
+                // Construir el código HTML como texto plano (sin escapar todavía)
+                var codigoHTML = '<div class="personaje-ficha">\n';
+                codigoHTML += '<div class="ficha-header">\n';
+                codigoHTML += '<div class="ficha-sidebar">\n';
+                codigoHTML += '<div class="ficha-imagen-contenedor">[IMG=png]' + img + '[/IMG]</div>\n';
+                codigoHTML += '<div class="ficha-faccion">\n';
+                codigoHTML += '<div class="texto-faccion">' + afi + '</div>\n';
+                codigoHTML += '<div class="texto-ubicacion">' + asentamiento + ' • ' + region + '</div>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '<div class="ficha-header-content">\n';
+                codigoHTML += '<h1>' + ic + '</h1>\n';
+                codigoHTML += '<p>"Lema de la facción, cita de batalla o título honorífico del personaje."</p>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '<div class="ficha-info"><strong>Nombre OOC</strong> ' + ooc + '\n';
+                codigoHTML += '<strong>Nombre IC</strong> ' + ic + '\n';
+                codigoHTML += '<strong>Edad</strong> ' + edad + '\n';
+                codigoHTML += '<strong>Género</strong> ' + genero + '\n';
+                codigoHTML += '<strong>Origen</strong> ' + origen + '\n';
+                codigoHTML += '<strong>Ubicación actual</strong> ' + ubicacion + '\n';
+                codigoHTML += '<strong>Afiliación</strong> ' + afi + '\n';
+                codigoHTML += '<strong>Estado civil</strong> ' + estadocivil + '\n';
+                codigoHTML += '<strong>Orientación sexual</strong> ' + orientacion + '\n';
+                codigoHTML += '<strong>Rango</strong> ' + rango + '\n';
+                codigoHTML += '<strong>Estilo de combate</strong> ' + estilo_combate + '\n';
+                codigoHTML += '<strong>Ocupación</strong> ' + oficio + '\n';
+                codigoHTML += '<strong>Experiencia</strong> [color=green]<b>000</b>[/color] / [color=red]<b>000</b>[/color] / [color=gray]<b>000</b>[/color]\n';
+                codigoHTML += '<strong>Dragones de Oro</strong> [color=gold]<b>250</b>[/color]</div>\n';
+                codigoHTML += '<div class="ficha-atributos">\n';
+                codigoHTML += '<h3>Atributos físicos</h3>\n';
+                codigoHTML += '<div class="atributos-grid">\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Vitalidad</span>450</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Energía</span>150</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Fuerza</span>15</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Velocidad</span>3</div>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '<div class="ficha-atributos">\n';
+                codigoHTML += '<h3>Atributos sociales</h3>\n';
+                codigoHTML += '<div class="atributos-grid">\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Carisma</span>0</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Persuasión</span>0</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Sabiduría</span>0</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Liderazgo</span>0</div>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '<div class="ficha-textos">\n';
+                codigoHTML += '<div class="textos-seccion">\n';
+                codigoHTML += '<h1>Rasgos</h1>\n';
+                codigoHTML += '<strong>Ascendencia</strong> ' + ascendencia + '\n';
+                codigoHTML += '<strong>Religión</strong> ' + religion + '\n';
+                codigoHTML += '<strong>Constitución</strong> ' + constitucion + '\n';
+                codigoHTML += virtudesHTML + '\n';
+                codigoHTML += defectosHTML + '\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '<div class="textos-seccion">\n';
+                codigoHTML += '<h1>Habilidades</h1>\n';
+                codigoHTML += '<strong>Atacar</strong>\n';
+                codigoHTML += '<strong>Evadir</strong>\n';
+                codigoHTML += '<strong>Retirada</strong>\n';
+                codigoHTML += '<strong>¡Auxilio!</strong>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '<div class="textos-seccion">\n';
+                codigoHTML += '<h1>Pertenencias</h1>\n';
+                codigoHTML += '<div class="pertenencias-container"><div class="pertenencias-lista"><h2>Equipado</h2>−\n';
+                codigoHTML += '−\n';
+                codigoHTML += '−</div><div class="pertenencias-lista"><h2>Inventario</h2>−\n';
+                codigoHTML += '−\n';
+                codigoHTML += '−</div></div></div>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '<div class="ficha-historial">\n';
+                codigoHTML += '<h1>Historial de Acciones</h1>\n';
+                codigoHTML += '<div class="historial-container"><div class="historial-lista">\n';
+                codigoHTML += '<div class="historial-item">\n';
+                codigoHTML += '<div class="historial-fecha">' + fechaFormateada + '</div>Inicio en <b>ToWHRPG</b>.\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '</div>\n';
+                codigoHTML += '</div></div>';
+
+                // Escapar el HTML para que se muestre como texto
+                document.getElementById("code").innerHTML = escapeHtml(codigoHTML);
+            } catch (error) {
+                console.error('Error al generar el código:', error);
+                document.getElementById("code").innerHTML = 'Error al generar el código. Por favor, intenta de nuevo.';
+            }
+        }
+
+        // No generar código por defecto - mantener vacío
+        // window.onload = function() {
+        //     generar();
+        // };
+    </script>
+</body>
+</html>
