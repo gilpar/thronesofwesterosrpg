@@ -40,14 +40,14 @@
             box-sizing: border-box;
         }
 
-      ::-webkit-scrollbar {width: 4px}::-webkit-scrollbar-track {background: #0F0F0F}::-webkit-scrollbar-thumb {background: rgba(255, 255, 255, 0.1); border-radius: 2px; -moz-border-radius: 2px}::-webkit-scrollbar-thumb:hover {background: var(--frost-accent)}
+        ::-webkit-scrollbar {width: 4px}::-webkit-scrollbar-track {background: #0F0F0F}::-webkit-scrollbar-thumb {background: rgba(255, 255, 255, 0.1); border-radius: 2px; -moz-border-radius: 2px}::-webkit-scrollbar-thumb:hover {background: var(--frost-accent)}
 
         body {
             background-color: var(--deep-void); color: var(--slate-400); font-family: 'Montserrat', sans-serif; min-height: 100vh; line-height: 1.5; padding: 2rem; border: 1px solid #181f28; background: #0a0c10; padding: 30px;
         }
 
-      @font-face {font-family:"Thrones of Westeros";
-src: url('https://static.tumblr.com/dr1ak2t/Wxuq86swy/gameofthrones-webfont.ttf')}
+        @font-face {font-family:"Thrones of Westeros";
+        src: url('https://static.tumblr.com/dr1ak2t/Wxuq86swy/gameofthrones-webfont.ttf')}
       
         ::selection {
             background-color: rgba(56, 189, 248, 0.3);
@@ -412,6 +412,19 @@ src: url('https://static.tumblr.com/dr1ak2t/Wxuq86swy/gameofthrones-webfont.ttf'
             letter-spacing: 0.1em;
             line-height: 1.6;
         }
+      
+      .code-note a {
+    color: var(--frost-accent);
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.code-note a:hover {
+    color: white;
+    border-bottom-color: var(--frost-accent);
+}
 
         /* Sticky sidebar */
         .sticky-sidebar {
@@ -419,10 +432,10 @@ src: url('https://static.tumblr.com/dr1ak2t/Wxuq86swy/gameofthrones-webfont.ttf'
             top: 2rem;
         }
 
-        /* Toast notification */
+        /* Toast notification - AHORA EN LA PARTE SUPERIOR */
         .toast {
             position: fixed;
-            bottom: 2rem;
+            top: 2rem;
             right: 2rem;
             background: var(--frost-accent);
             color: var(--deep-void);
@@ -635,7 +648,7 @@ src: url('https://static.tumblr.com/dr1ak2t/Wxuq86swy/gameofthrones-webfont.ttf'
     </style>
 </head>
 <body>
-    <!-- Toast notification -->
+    <!-- Toast notification - AHORA EN LA PARTE SUPERIOR -->
     <div id="toast" class="toast">
         <i class="fa-regular fa-check-circle"></i>
         <span>Código copiado al portapapeles</span>
@@ -644,7 +657,7 @@ src: url('https://static.tumblr.com/dr1ak2t/Wxuq86swy/gameofthrones-webfont.ttf'
     <div class="main-container">
         <div class="title-section">
             <div>
-                <h2 class="main-title">Generador de ficha</span></h2>
+                <h2 class="main-title">Generador de ficha</h2>
             </div>
         </div>
 
@@ -867,7 +880,7 @@ src: url('https://static.tumblr.com/dr1ak2t/Wxuq86swy/gameofthrones-webfont.ttf'
                         <code id="code" class="block leading-loose whitespace-pre-wrap"></code>
                     </div>
                     <p class="code-note">
-                        Copia este código y pégalo en el foro de Creación de Personaje. No olvides adjuntar tu historia en el post correspondiente.
+                        Copia el siguiente código y súbelo como un nuevo tema en el foro de <a href="https://thronesofwesterosrpg.forumcommunity.net/?f=9158165" target="_blank" rel="noopener noreferrer">fichas</a>.
                     </p>
                 </div>
             </div>
