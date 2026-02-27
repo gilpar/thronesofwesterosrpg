@@ -40,15 +40,15 @@
             box-sizing: border-box;
         }
 
+      ::-webkit-scrollbar {width: 4px}::-webkit-scrollbar-track {background: #0F0F0F}::-webkit-scrollbar-thumb {background: rgba(255, 255, 255, 0.1); border-radius: 2px; -moz-border-radius: 2px}::-webkit-scrollbar-thumb:hover {background: var(--frost-accent)}
+
         body {
-            background-color: var(--deep-void);
-            color: var(--slate-400);
-            font-family: 'Montserrat', sans-serif;
-            min-height: 100vh;
-            line-height: 1.5;
-            padding: 2rem;
+            background-color: var(--deep-void); color: var(--slate-400); font-family: 'Montserrat', sans-serif; min-height: 100vh; line-height: 1.5; padding: 2rem; border: 1px solid #181f28; background: #0a0c10; padding: 30px;
         }
 
+      @font-face {font-family:"Thrones of Westeros";
+src: url('https://static.tumblr.com/dr1ak2t/Wxuq86swy/gameofthrones-webfont.ttf')}
+      
         ::selection {
             background-color: rgba(56, 189, 248, 0.3);
         }
@@ -59,8 +59,7 @@
 
         /* Glass panel effect */
         .glass-panel {
-            background: rgba(15, 18, 23, 0.85);
-            backdrop-filter: blur(20px);
+            background: #0F1216;
             border: 1px solid rgba(147, 197, 253, 0.1);
         }
 
