@@ -15,8 +15,11 @@
     <!-- Chosen CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css">
     
+    <!-- Tippy.js -->
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css">
+    
     <style>
-        /* Variables CSS */
+        /* Variables CSS (sin cambios) */
         :root {
             --ice-blue: #93c5fd;
             --frost-accent: #38bdf8;
@@ -31,9 +34,16 @@
             --slate-500: #64748b;
             --slate-600: #475569;
             --slate-700: #334155;
+            --virtud-color: #4ade80;
+            --defecto-color: #f87171;
+            --warning-color: #fbbf24;
+            --bckg-op: rgba(15, 18, 23, 0.95);
+            --border1: rgba(147, 197, 253, 0.2);
+            --fblur: blur(8px);
+            --title: #ffffff;
         }
 
-        /* Reset y estilos base */
+        /* Reset y estilos base (sin cambios) */
         * {
             margin: 0;
             padding: 0;
@@ -70,38 +80,6 @@
             margin: 0 auto;
         }
 
-        /* Breadcrumb */
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            font-size: 0.625rem;
-            font-weight: 700;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: var(--slate-500);
-        }
-
-        .breadcrumb a {
-            color: var(--slate-500);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .breadcrumb a:hover {
-            color: var(--frost-accent);
-        }
-
-        .breadcrumb i {
-            font-size: 0.75rem;
-            font-weight: 300;
-        }
-
-        .breadcrumb-current {
-            color: var(--frost-accent);
-        }
-
         /* Title section */
         .title-section {
             display: flex;
@@ -111,38 +89,18 @@
         }
 
         .main-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2.25rem;
+            font-family: 'Thrones of Westeros', serif;
+            font-size: 2.75rem;
             color: white;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: -0.025em;
+            letter-spacing: 0.05em;
             line-height: 1;
-            text-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.5), 0 0 40px rgba(56, 189, 248, 0.3);
         }
 
         .main-title span {
             color: var(--frost-accent);
-        }
-
-        .title-right {
-            text-align: right;
-        }
-
-        .forge-label {
-            font-size: 0.5625rem;
-            font-weight: 900;
-            letter-spacing: 0.4em;
-            color: var(--frost-accent);
-            text-transform: uppercase;
-        }
-
-        .forge-version {
-            font-size: 0.5625rem;
-            font-weight: 700;
-            letter-spacing: 0.2em;
-            color: var(--slate-600);
-            text-transform: uppercase;
         }
 
         /* Grid layout - dos columnas */
@@ -160,30 +118,20 @@
 
         /* Form sections */
         .section {
-            padding: 2rem;
-            margin-bottom: 2rem;
+            padding: 2em;
+            margin-bottom: 2em;
         }
 
         .section-header {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
+            display: none;
         }
 
         .section-icon {
-            color: var(--frost-accent);
-            font-size: 1.5rem;
-            font-weight: 300;
+            display: none;
         }
 
         .section-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.125rem;
-            color: white;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
+            display: none;
         }
 
         /* Form grid */
@@ -195,11 +143,15 @@
 
         @media (min-width: 768px) {
             .form-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
             
             .form-grid .full-width {
-                grid-column: span 2;
+                grid-column: span 3;
+            }
+
+            .form-grid .half-width {
+                grid-column: span 1;
             }
         }
 
@@ -244,12 +196,218 @@
             letter-spacing: 0.1em;
         }
 
-        /* Chosen customization */
+        /* Estilo para los options de los selects nativos */
+        select.form-select option {
+            background-color: var(--slate-ethereal);
+            color: white;
+            padding: 0.5rem;
+        }
+
+        /* Estilo para el select cuando está abierto */
+        select.form-select:focus {
+            border-color: var(--frost-accent);
+        }
+
+        /* Puntos counter */
+        .puntos-counter {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(15, 18, 23, 0.5) 100%);
+            border: 1px solid var(--border-ice);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            border-radius: 0;
+        }
+
+        .puntos-titulo {
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            color: var(--slate-500);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .puntos-circulos {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .punto {
+            font-size: 1.3rem;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        .punto.virtud {
+            color: var(--virtud-color);
+            text-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+            font-weight: 900;
+        }
+
+        .punto.defecto {
+            color: var(--defecto-color);
+            text-shadow: 0 0 8px rgba(248, 113, 113, 0.6);
+            font-weight: 900;
+        }
+
+        .punto.disponible {
+            color: var(--slate-600);
+            opacity: 0.6;
+            font-weight: 900;
+        }
+
+        .punto-neutral {
+            color: var(--slate-600);
+        }
+
+        .puntos-info {
+            font-size: 0.75rem;
+            color: var(--slate-400);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-left: auto;
+            white-space: nowrap;
+            background: rgba(147, 197, 253, 0.05);
+            padding: 0.5rem 1rem;
+            border-radius: 0;
+            border: 1px solid rgba(147, 197, 253, 0.1);
+        }
+
+        .puntos-info i {
+            color: var(--frost-accent);
+            cursor: help;
+            font-weight: 300;
+            transition: all 0.3s;
+        }
+
+        .puntos-info i:hover {
+            color: white;
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+        }
+
+        .puntos-total {
+            font-family: 'Cinzel', serif;
+            color: var(--frost-accent);
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .modal-contenido {
+            background: var(--slate-ethereal);
+            border: 1px solid var(--border-ice);
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-icon {
+            color: var(--frost-accent);
+            font-size: 1.5rem;
+        }
+
+        .modal-titulo {
+            font-family: 'Cinzel', serif;
+            font-size: 1.125rem;
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .modal-texto {
+            color: var(--slate-400);
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-texto a {
+            color: var(--frost-accent);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .modal-texto a:hover {
+            border-bottom-color: var(--frost-accent);
+        }
+
+        .modal-close {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 100%);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .modal-close:hover {
+            filter: brightness(1.1);
+        }
+
+        /* Tooltip personalizado */
+        .tippy-box[data-theme~='principal'] {
+            max-width: 300px;
+            z-index: 99999 !important;
+            background: var(--bckg-op);
+            border: 1px solid var(--border1);
+            font: 600 11px 'Cinzel';
+            text-transform: uppercase;
+            padding: 4px 8px;
+            backdrop-filter: var(--fblur);
+            border-radius: 0;
+            pointer-events: none !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            color: var(--title);
+        }
+
+        .tippy-box[data-theme~='principal'] .tippy-content {
+            padding: 8px 12px;
+        }
+
+        /* Estilos para Chosen - MEJORADOS */
         .chosen-container-multi .chosen-choices {
             background: rgba(255, 255, 255, 0.05) !important;
             border: 1px solid var(--white-10) !important;
             border-radius: 0 !important;
             padding: 0.5rem !important;
+            box-shadow: none !important;
         }
 
         .chosen-container-multi .chosen-choices li.search-field input[type=text] {
@@ -258,22 +416,40 @@
             font-size: 0.75rem !important;
             height: auto !important;
             padding: 0.25rem !important;
+            margin: 0 !important;
         }
 
         .chosen-container-multi .chosen-choices li.search-choice {
-            background: rgba(56, 189, 248, 0.2) !important;
-            border: 1px solid rgba(56, 189, 248, 0.3) !important;
             border-radius: 0 !important;
             color: white !important;
             font-family: 'Montserrat', sans-serif !important;
             font-size: 0.7rem !important;
             padding: 0.25rem 1.5rem 0.25rem 0.5rem !important;
+            margin: 2px !important;
+            line-height: 1.4 !important;
+            border: 1px solid var(--white-10) !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            box-shadow: none !important;
+        }
+        
+        /* Estilos para los Chosen de virtudes/defectos */
+        .chosen-container-multi .chosen-choices li.search-choice.virtud-choice {
+            background: rgba(74, 222, 128, 0.2) !important;
+            border: 1px solid rgba(74, 222, 128, 0.3) !important;
+            color: var(--virtud-color) !important;
+        }
+        
+        .chosen-container-multi .chosen-choices li.search-choice.defecto-choice {
+            background: rgba(248, 113, 113, 0.2) !important;
+            border: 1px solid rgba(248, 113, 113, 0.3) !important;
+            color: var(--defecto-color) !important;
         }
 
         .chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
             background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>') !important;
             background-size: contain !important;
             top: 0.35rem !important;
+            right: 0.25rem !important;
         }
 
         .chosen-container .chosen-drop {
@@ -281,6 +457,14 @@
             border: 1px solid var(--border-ice) !important;
             border-radius: 0 !important;
             box-shadow: none !important;
+        }
+
+        .chosen-container .chosen-results li {
+            position: relative;  /* Para que el icono se posicione correctamente */
+            color: var(--slate-400) !important;
+            font-size: 0.75rem !important;
+            padding: 0.5rem 0.5rem 0.5rem 2.5rem !important;  /* Espacio para el icono */
+            line-height: 1.4 !important;
         }
 
         .chosen-container .chosen-results li.highlighted {
@@ -294,12 +478,86 @@
             font-size: 0.7rem !important;
             text-transform: uppercase !important;
             background: var(--slate-frost) !important;
+            padding: 0.5rem !important;
         }
 
-        .chosen-container .chosen-results li {
-            color: var(--slate-400) !important;
-            font-size: 0.75rem !important;
-            padding: 0.5rem !important;
+        /* Estilos para opciones deshabilitadas en Chosen */
+        .chosen-container .chosen-results li.disabled-result {
+            color: var(--slate-700) !important;
+            cursor: not-allowed !important;
+            opacity: 0.4 !important;
+            background: rgba(248, 113, 113, 0.05) !important;
+        }
+
+        .chosen-container .chosen-results li.disabled-result::before {
+            content: "\f05e";  /* Icono de círculo con exclamación */
+            font-family: "Font Awesome 6 Pro";
+            position: absolute;
+            left: 0.75rem;
+            top: 0.35rem;
+            color: var(--defecto-color);
+            font-weight: 300;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            z-index: 2;
+        }
+
+        /* Estilos para los iconos de incompatibilidad */
+        .incompatible-badge {
+            display: inline-block;
+            margin-left: 0.5rem;
+            color: var(--defecto-color);
+            cursor: help;
+            font-size: 0.7rem;
+        }
+
+        /* Estilos para el Chosen de combate */
+        .combate-chosen + .chosen-container-multi .chosen-choices li.search-choice {
+            background: rgba(56, 189, 248, 0.15) !important;
+            border: 1px solid rgba(56, 189, 248, 0.3) !important;
+            color: var(--frost-accent) !important;
+            padding-left: 2.2rem !important;
+            position: relative;
+        }
+
+        .combate-chosen + .chosen-container-multi .chosen-choices li.search-choice[data-option-value="Arco y Flechas"]::before {
+            content: "🏹";
+        }
+
+        .combate-chosen + .chosen-container-multi .chosen-choices li.search-choice[data-option-value="Armas Contundentes"]::before {
+            content: "🔨";
+        }
+
+        .combate-chosen + .chosen-container-multi .chosen-choices li.search-choice[data-option-value="Dagas"]::before {
+            content: "🗡️";
+        }
+
+        .combate-chosen + .chosen-container-multi .chosen-choices li.search-choice[data-option-value="Escudos"]::before {
+            content: "🛡️";
+        }
+
+        .combate-chosen + .chosen-container-multi .chosen-choices li.search-choice[data-option-value="Espadas"]::before {
+            content: "⚔️";
+        }
+
+        .combate-chosen + .chosen-container-multi .chosen-choices li.search-choice[data-option-value="Hachas"]::before {
+            content: "🪓";
+        }
+
+        .combate-chosen + .chosen-container-multi .chosen-choices li.search-choice[data-option-value="Lanzas"]::before {
+            content: "🔱";
+        }
+
+        .combate-chosen + .chosen-container-multi .chosen-choices li.search-choice::before {
+            position: absolute;
+            left: 0.5rem;
+            font-size: 1rem;
+        }
+
+        /* Estilos para las opciones en el desplegable de combate */
+        .combate-chosen + .chosen-container .chosen-results li {
+            position: relative;
+            padding-left: 1.5rem !important;
         }
 
         /* Metallic button */
@@ -335,7 +593,7 @@
             transform: translateX(0.25rem);
         }
 
-        /* Code block - altura automática con scroll */
+        /* Code block */
         .code-block {
             background: rgba(0, 0, 0, 0.6);
             border: 1px solid var(--white-5);
@@ -360,7 +618,6 @@
             line-height: 1.6;
             white-space: pre-wrap;
             word-break: break-word;
-            color: #94a3b8;
         }
 
         .code-header {
@@ -391,8 +648,10 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             cursor: pointer;
-            transition: color 0.3s;
+            transition: all 0.3s;
             position: relative;
+            min-width: 140px;
+            justify-content: flex-end;
         }
 
         .code-copy-button:hover {
@@ -402,6 +661,11 @@
         .code-copy-button i {
             font-weight: 300;
             font-size: 0.875rem;
+            transition: all 0.3s;
+        }
+
+        .code-copy-button.copied {
+            color: #4ade80;
         }
 
         .code-note {
@@ -413,55 +677,23 @@
             line-height: 1.6;
         }
       
-      .code-note a {
-    color: var(--frost-accent);
-    text-decoration: none;
-    font-weight: 700;
-    transition: all 0.3s ease;
-    border-bottom: 1px solid transparent;
-}
+        .code-note a {
+            color: var(--frost-accent);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
 
-.code-note a:hover {
-    color: white;
-    border-bottom-color: var(--frost-accent);
-}
+        .code-note a:hover {
+            color: white;
+            border-bottom-color: var(--frost-accent);
+        }
 
         /* Sticky sidebar */
         .sticky-sidebar {
             position: sticky;
-            top: 2rem;
-        }
-
-        /* Toast notification - AHORA EN LA PARTE SUPERIOR */
-        .toast {
-            position: fixed;
-            top: 2rem;
-            right: 2rem;
-            background: var(--frost-accent);
-            color: var(--deep-void);
-            padding: 1rem 2rem;
-            border-radius: 0;
-            font-size: 0.875rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transform: translateX(calc(100% + 2rem));
-            transition: transform 0.3s ease-in-out;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .toast i {
-            font-size: 1.25rem;
-            font-weight: 300;
+            top: 100px;
         }
 
         /* Utility classes */
@@ -469,196 +701,211 @@
             margin-top: 2rem;
         }
 
-        .space-y-6 > * + * {
-            margin-top: 1.5rem;
-        }
-
         .space-y-4 > * + * {
             margin-top: 1rem;
-        }
-
-        .space-y-2 > * + * {
-            margin-top: 0.5rem;
-        }
-
-        .mb-3 {
-            margin-bottom: 0.75rem;
-        }
-
-        .mb-8 {
-            margin-bottom: 2rem;
         }
 
         .pt-4 {
             padding-top: 1rem;
         }
 
-        .flex {
-            display: flex;
-        }
-
-        .items-center {
-            align-items: center;
-        }
-
-        .justify-between {
-            justify-content: space-between;
-        }
-
-        .gap-3 {
-            gap: 0.75rem;
-        }
-
-        .gap-4 {
-            gap: 1rem;
-        }
-
         .w-full {
             width: 100%;
-        }
-
-        .text-xs {
-            font-size: 0.75rem;
-        }
-
-        .text-sm {
-            font-size: 0.875rem;
-        }
-
-        .font-black {
-            font-weight: 900;
-        }
-
-        .font-bold {
-            font-weight: 700;
-        }
-
-        .uppercase {
-            text-transform: uppercase;
-        }
-
-        .tracking-widest {
-            letter-spacing: 0.1em;
         }
 
         .text-white {
             color: white;
         }
 
-        .text-slate-500 {
-            color: var(--slate-500);
-        }
-
-        .text-slate-600 {
-            color: var(--slate-600);
-        }
-
         .text-frost-accent {
             color: var(--frost-accent);
         }
 
-        .border-white\/5 {
-            border-color: var(--white-5);
+        /* Header Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(5, 6, 8, 0.98);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-ice);
+            margin-bottom: 3rem;
         }
 
-        .border-white\/10 {
-            border-color: var(--white-10);
+        header nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
         }
 
-        .rounded-none {
+        header nav span {
+            display: flex;
+            gap: 3rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--frost-accent);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-bottom: 2px solid transparent;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        header nav a:hover {
+            color: white;
+            border-bottom-color: var(--frost-accent);
+            transform: translateY(-2px);
+        }
+
+        header nav a::before {
+            content: '';
+            position: absolute;
+            left: -0.5rem;
+            right: -0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(90deg, transparent 0%, rgba(56, 189, 248, 0.1) 50%, transparent 100%);
+            height: 1.5rem;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        header nav a:hover::before {
+            opacity: 1;
+        }
+
+        header nav a i {
+            font-size: 0.9rem;
+            font-weight: 300;
+        }
+
+        /* Sección descripción general */
+        .descripcion-general {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(56, 189, 248, 0.05) 100%);
+            border: 1px solid var(--border-ice);
+            padding: 2rem;
+            margin-bottom: 2rem;
             border-radius: 0;
         }
 
-        .transition-all {
-            transition: all 0.3s;
+        .descripcion-general h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: var(--frost-accent);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
-        .hover\:text-white:hover {
-            color: white;
+        .descripcion-general h3 i {
+            font-size: 1.1rem;
+            font-weight: 300;
         }
 
-        .focus\:border-frost-accent:focus {
-            border-color: var(--frost-accent);
+        .descripcion-general p {
+            color: var(--slate-400);
+            font-size: 0.875rem;
+            line-height: 1.7;
         }
 
-        .focus\:ring-0:focus {
-            outline: none;
+        /* Formulario unificado */
+        .formulario-unificado {
+            background: var(--slate-ethereal);
+            border: 1px solid var(--border-ice);
+            padding: 2.5rem;
         }
 
-        .absolute {
-            position: absolute;
+        .formulario-bloque {
+            margin-bottom: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border-ice);
         }
 
-        .fixed {
-            position: fixed;
+        .formulario-bloque:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
         }
 
-        .sticky {
-            position: sticky;
+        .bloque-titulo {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            color: var(--frost-accent);
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
-        .top-2 {
-            top: 0.5rem;
-        }
-
-        .right-2 {
-            right: 0.5rem;
-        }
-
-        .z-1000 {
-            z-index: 1000;
-        }
-
-        .overflow-x-auto {
-            overflow-x: auto;
-        }
-
-        .block {
-            display: block;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .max-w-[1600px] {
-            max-width: 1600px;
-        }
-
-        .mx-auto {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        @media (min-width: 768px) {
-            .md\:col-span-2 {
-                grid-column: span 2;
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .lg\:col-span-7 {
-                grid-column: span 7;
-            }
-            
-            .lg\:col-span-5 {
-                grid-column: span 5;
-            }
+        .bloque-titulo i {
+            font-size: 1rem;
+            font-weight: 300;
+            color: var(--frost-accent);
         }
     </style>
 </head>
 <body>
-    <!-- Toast notification - AHORA EN LA PARTE SUPERIOR -->
-    <div id="toast" class="toast">
-        <i class="fa-regular fa-check-circle"></i>
-        <span>Código copiado al portapapeles</span>
+    <!-- Header Navigation -->
+    <header>
+        <nav>
+            <span>
+                <a href="https://thronesofwesterosrpg.forumcommunity.net/" target="_blank" rel="noopener noreferrer"><i class="fas fa-home"></i>Inicio</a>
+                <a href="https://thronesofwesterosrpg.forumcommunity.net/?f=9158159" target="_blank" rel="noopener noreferrer"><i class="fas fa-book-open"></i>Sistemas de Juego</a>
+                <a href="https://thronesofwesterosrpg.forumcommunity.net/?f=9158165" target="_blank" rel="noopener noreferrer"><i class="fas fa-pencil-alt"></i>Creación de Ficha</a>
+            </span>
+        </nav>
+    </header>
+
+    <!-- Modal de información -->
+    <div class="modal-overlay" id="infoModal">
+        <div class="modal-contenido">
+            <div class="modal-header">
+                <i class="fa-regular fa-circle-info modal-icon"></i>
+                <h3 class="modal-titulo">Sistema de Rasgos</h3>
+            </div>
+            <div class="modal-texto">
+                <p>En cuanto a las virtudes y defectos el jugador puede elegir cuantos quiera, siempre y cuando el balance de puntos sea 0 o positivo. El jugador comienza con 6 puntos de virtudes y defectos para gastar y puede ganar más puntos adquiriendo defectos.</p>
+                <br>
+                <p>Para más información visitar el <a href="https://thronesofwesterosrpg.forumcommunity.net/?t=63430733" target="_blank" rel="noopener noreferrer">Sistema de Rasgos</a>.</p>
+            </div>
+            <button class="modal-close" onclick="cerrarModal()">Entendido</button>
+        </div>
     </div>
 
     <div class="main-container">
         <div class="title-section">
             <div>
-                <h2 class="main-title">Generador de ficha</h2>
+                <h2 class="main-title">Generador de Ficha</h2>
             </div>
+        </div>
+
+        <!-- Descripción general del generador -->
+        <div class="descripcion-general">
+            <h3><i class="fas fa-info-circle"></i>¿Cómo funciona?</h3>
+            <p>Este generador de fichas te ayuda a crear un registro completo de tu personaje en <strong>Thrones of Westeros RPG</strong>. Completa los campos con la información de tu personaje, selecciona tus rasgos (virtudes y defectos) respetando el balance de puntos, y el sistema generará automáticamente el código formateado para publicar tu ficha en el foro. Recuerda que el equilibrio de puntos debe ser 0 o positivo: comienzas con 6 puntos para gastar en virtudes, pero puedes obtener más puntos seleccionando defectos.</p>
         </div>
 
         <div class="grid">
@@ -750,7 +997,7 @@
                             </div>
                             <div class="full-width">
                                 <label class="form-label">Constitución:</label>
-                                <select name="constitucion" class="form-select">
+                                <select name="constitucion" class="form-select" onchange="actualizarAtributos()">
                                     <option hidden selected disabled value=""></option>
                                     <option value="Fuerte">Fuerte</option>
                                     <option value="Robusto">Robusto</option>
@@ -760,63 +1007,53 @@
                                 </select>
                             </div>
                             <div class="full-width">
-                                <label class="form-label">Rasgos (selección múltiple):</label>
+                                <label class="form-label">Virtudes y defectos (selección múltiple):</label>
+                                
+                                <!-- Puntos counter -->
+                                <div class="puntos-counter">
+                                    <span class="puntos-titulo">Ranuras disponibles:</span>
+                                    <div class="puntos-circulos" id="puntosCirculos">
+                                        <!-- Se llena dinámicamente -->
+                                    </div>
+                                    <div class="puntos-info">
+                                        <i class="fa-regular fa-circle-info" onclick="abrirModal()" style="cursor: pointer;"></i>
+                                        <span id="puntosBalance">0</span> / <span id="puntosTotal">6</span>
+                                    </div>
+                                </div>
+
                                 <select id="dropdown" name="rasgos" class="multipleChosen" multiple="true">
-                                    <optgroup label="Rasgos Positivos">
-                                        <option value="Robusto">Robusto</option>
-                                        <option value="Musculoso">Musculoso</option>
-                                        <option value="Flexible">Flexible</option>
-                                        <option value="Ligero">Ligero</option>
-                                        <option value="Armero">Armero</option>
-                                        <option value="Atractivo">Atractivo</option>
-                                        <option value="Sociable">Sociable</option>
-                                        <option value="Excitable">Excitable</option>
-                                        <option value="Ambidiestro">Ambidiestro</option>
-                                        <option value="Preciso">Preciso</option>
-                                        <option value="Autoridad">Autoridad</option>
-                                        <option value="Reflejos Excepcionales">Reflejos Excepcionales</option>
-                                        <option value="Regateador">Regateador</option>
-                                        <option value="Aprendizaje Acelerado">Aprendizaje Acelerado</option>
-                                        <option value="Curiosidad Intelectual">Curiosidad Intelectual</option>
-                                        <option value="Valiente">Valiente</option>
-                                        <option value="Resistencia Heroica">Resistencia Heroica</option>
-                                        <option value="Alerta Constante">Alerta Constante</option>
-                                        <option value="Sanador Nato">Sanador Nato</option>
-                                        <option value="Cicatrización Rápida">Cicatrización Rápida</option>
-                                        <option value="Regeneración">Regeneración</option>
-                                        <option value="Primer Movimiento">Primer Movimiento</option>
-                                        <option value="Trabajo en Equipo">Trabajo en Equipo</option>
-                                        <option value="Táctico">Táctico</option>
-                                        <option value="Audaz">Audaz</option>
-                                        <option value="Afortunado">Afortunado</option>
-                                        <option value="Gourmet">Gourmet</option>
+                                    <optgroup label="Virtudes">
+                                        <option value="Bello" data-tipo="virtud" data-puntos="-3" data-incompatible="Feo" data-efecto="Concede +2 Carisma y +1 Persuasión.">Bello (-3)</option>
+                                        <option value="Bondadoso" data-tipo="virtud" data-puntos="-2" data-incompatible="Apático,Sádico" data-efecto="Concede +2 Carisma.">Bondadoso (-2)</option>
+                                        <option value="Honorable" data-tipo="virtud" data-puntos="-1" data-incompatible="Manipulador,Sádico" data-efecto="Concede +2 Carisma.">Honorable (-1)</option>
+                                        <option value="Astuto" data-tipo="virtud" data-puntos="-3" data-incompatible="Tonto" data-efecto="Aumenta la Persuasión en +2 y la Sabiduría en +1.">Astuto (-3)</option>
+                                        <option value="Líder" data-tipo="virtud" data-puntos="-3" data-incompatible="" data-efecto="Concede +1 Liderazgo.">Líder (-3)</option>
+                                        <option value="Seductor" data-tipo="virtud" data-puntos="-3" data-incompatible="Desagradable" data-efecto="Concede +3 Persuasión.">Seductor (-3)</option>
+                                        <option value="Intrigante" data-tipo="virtud" data-puntos="-3" data-incompatible="Honorable" data-efecto="Concede +4 Persuasión.">Intrigante (-3)</option>
+                                        <option value="Inteligente" data-tipo="virtud" data-puntos="-4" data-incompatible="Tonto" data-efecto="Aumenta la Sabiduría en +2.">Inteligente (-4)</option>
+                                        <option value="Protector" data-tipo="virtud" data-puntos="-2" data-incompatible="Apático" data-efecto="Concede +1 Liderazgo.">Protector (-2)</option>
+                                        <option value="Valiente" data-tipo="virtud" data-puntos="-3" data-incompatible="Cobarde" data-efecto="Resistencia a efectos de miedo.">Valiente (-3)</option>
+                                        <option value="Sabio" data-tipo="virtud" data-puntos="-3" data-incompatible="Tonto,Vago" data-efecto="Aumenta +4 Sabiduría.">Sabio (-3)</option>
+                                        <option value="Sádico" data-tipo="virtud" data-puntos="-3" data-incompatible="Honorable,Empático" data-efecto="Concede +2 en combate contra enemigos heridos.">Sádico (-3)</option>
+                                        <option value="Corpulento" data-tipo="virtud" data-puntos="-2" data-incompatible="Ágil,Endeble" data-efecto="Aumenta la Vitalidad en un 10%.">Corpulento (-2)</option>
+                                        <option value="Diplomático" data-tipo="virtud" data-puntos="-3" data-incompatible="Apático" data-efecto="Otorga +4 Carisma.">Diplomático (-3)</option>
                                     </optgroup>
-                                    <optgroup label="Rasgos Negativos">
-                                        <option value="Sobrepeso">Sobrepeso</option>
-                                        <option value="Enclenque">Enclenque</option>
-                                        <option value="Problemas de Equilibrio">Problemas de Equilibrio</option>
-                                        <option value="Cicatriz">Cicatriz</option>
-                                        <option value="Tullido Brazo/Mano">Tullido: Brazo/Mano</option>
-                                        <option value="Tullido Pierna/Pie">Tullido: Pierna/Pie</option>
-                                        <option value="Sordo">Sordo</option>
-                                        <option value="Ciego">Ciego</option>
-                                        <option value="Miope/Tuerto">Miope/Tuerto</option>
-                                        <option value="Reflejos Nulos">Reflejos Nulos</option>
-                                        <option value="Pacifista">Pacifista</option>
-                                        <option value="Desdichado">Desdichado</option>
-                                        <option value="Pesimista">Pesimista</option>
-                                        <option value="Vengativo">Vengativo</option>
-                                        <option value="Agotamiento Rápido">Agotamiento Rápido</option>
-                                        <option value="Mudo">Mudo</option>
-                                        <option value="Fealdad">Fealdad</option>
-                                        <option value="Aislado">Aislado</option>
-                                        <option value="Cobarde">Cobarde</option>
-                                        <option value="Derrochador">Derrochador</option>
-                                        <option value="Determinación Inquebrantable">Determinación Inquebrantable</option>
-                                        <option value="Aprendizaje Difícil">Aprendizaje Difícil</option>
-                                        <option value="Celoso">Celoso</option>
-                                        <option value="Glotón">Glotón</option>
-                                        <option value="Cicatrización Lenta">Cicatrización Lenta</option>
+                                    <optgroup label="Defectos">
+                                        <option value="Gordo" data-tipo="defecto" data-puntos="+3" data-incompatible="Atlético,Ágil" data-efecto="Reduce la Velocidad base en un 20% [x0.80].">Gordo (+3)</option>
+                                        <option value="Endeble" data-tipo="defecto" data-puntos="+4" data-incompatible="Robusto,Fuerte,Corpulento" data-efecto="Reduce la Fuerza base en un 20% [x0.80].">Endeble (+4)</option>
+                                        <option value="Manco" data-tipo="defecto" data-puntos="+4" data-incompatible="" data-efecto="Reduce la Fuerza base en un 40% [x0.60].">Manco (+4)</option>
+                                        <option value="Cojo" data-tipo="defecto" data-puntos="+4" data-incompatible="" data-efecto="Reduce la Velocidad base en un 40% [x0.60].">Cojo (+4)</option>
+                                        <option value="Feo" data-tipo="defecto" data-puntos="+3" data-incompatible="Bello,Seductor" data-efecto="Reduce el Carisma en -2 y la Persuasión en -2.">Feo (+3)</option>
+                                        <option value="Infértil" data-tipo="defecto" data-puntos="+2" data-incompatible="" data-efecto="No puedes tener hijos.">Infértil (+2)</option>
+                                        <option value="Marcado" data-tipo="defecto" data-puntos="+2" data-incompatible="" data-efecto="Reduce la Vitalidad base en 10% [x0.90].">Marcado (+2)</option>
+                                        <option value="Tuerto" data-tipo="defecto" data-puntos="+1" data-incompatible="" data-efecto="-1 a ataques a distancia.">Tuerto (+1)</option>
+                                        <option value="Apático" data-tipo="defecto" data-puntos="+1" data-incompatible="Bondadoso" data-efecto="Reduce -2 Carisma.">Apático (+1)</option>
+                                        <option value="Atormentado" data-tipo="defecto" data-puntos="+2" data-incompatible="" data-efecto="Reduce el Carisma en -2.">Atormentado (+2)</option>
+                                        <option value="Cobarde" data-tipo="defecto" data-puntos="+2" data-incompatible="Valiente" data-efecto="Penalización en situaciones de peligro.">Cobarde (+2)</option>
+                                        <option value="Enano" data-tipo="defecto" data-puntos="+4" data-incompatible="" data-efecto="Reduce Fuerza 25%, Vitalidad y Velocidad 20%.">Enano (+4)</option>
+                                        <option value="Tonto" data-tipo="defecto" data-puntos="+3" data-incompatible="Inteligente,Sabio" data-efecto="Reduce -4 la Sabiduría.">Tonto (+3)</option>
+                                        <option value="Ciego" data-tipo="defecto" data-puntos="+4" data-incompatible="" data-efecto="No puedes elegir un estilo de combate.">Ciego (+4)</option>
+                                        <option value="Perezoso" data-tipo="defecto" data-puntos="+1" data-incompatible="" data-efecto="Dificultad para iniciar acciones.">Perezoso (+1)</option>
                                     </optgroup>
                                 </select>
                             </div>
@@ -845,18 +1082,30 @@
                                 <label class="form-label">Orientación sexual:</label>
                                 <input type="text" name="orientacion" class="form-input" placeholder="Heterosexual">
                             </div>
-                            <div>
-                                <label class="form-label">Rango:</label>
-                                <input type="text" name="rango" class="form-input" placeholder="I">
+                            <div class="full-width">
+                                <label class="form-label">Lema / Cita / Título honorífico:</label>
+                                <input type="text" name="lema" class="form-input" placeholder='"Se acerca el invierno"'>
                             </div>
-                            <div>
-                                <label class="form-label">Estilo de combate:</label>
-                                <input type="text" name="estilo_combate" class="form-input" placeholder="Espada a dos manos">
+                            <div class="full-width">
+                                <label class="form-label">Estilo de combate (máximo 2):</label>
+                                <select name="estilo_combate" class="combate-chosen" multiple="true">
+                                    <option value="Arco y Flechas" title="Ataques a distancia precisos">Arco y Flechas</option>
+                                    <option value="Armas Contundentes" title="Fuerza bruta y impacto">Armas Contundentes</option>
+                                    <option value="Dagas" title="Ataques rápidos y ágiles">Dagas</option>
+                                    <option value="Escudos" title="Maestría en defensa">Escudos</option>
+                                    <option value="Espadas" title="Equilibrio y precisión">Espadas</option>
+                                    <option value="Hachas" title="Poder y alcance">Hachas</option>
+                                    <option value="Lanzas" title="Versatilidad ofensiva">Lanzas</option>
+                                </select>
+                                <div id="combateError" style="color: var(--defecto-color); font-size: 0.7rem; margin-top: 0.5rem; display: none;">
+                                    <i class="fa-regular fa-circle-exclamation"></i>
+                                    <span id="combateErrorText">Solo puedes seleccionar un máximo de 2 estilos de combate.</span>
+                                </div>
                             </div>
                         </div>
                     </section>
 
-                    <!-- Botón movido debajo del formulario -->
+                    <!-- Botón -->
                     <div class="pt-4">
                         <button type="button" class="metallic-button" onclick="generar()">
                             <span>Generar Código IC</span>
@@ -871,9 +1120,9 @@
                 <div class="space-y-4">
                     <div class="code-header">
                         <h3 class="code-title">Pergamino de Código</h3>
-                        <button class="code-copy-button" onclick="copiarCodigo()">
+                        <button class="code-copy-button" onclick="copiarCodigo()" id="copyButton">
                             <i class="fa-regular fa-copy"></i>
-                            Copiar Código
+                            <span>Copiar Código</span>
                         </button>
                     </div>
                     <div class="code-block">
@@ -888,75 +1137,518 @@
     </div>
 
     <!-- Scripts -->
+    <link rel="stylesheet" href="https://cdn.forumfree.net/libs/tippyjs/css/theme+animation.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://cdn.forumfree.net/libs/tippyjs/tippy.js"></script>
     
     <script>
-        // Inicializar Chosen
-        $(document).ready(function() {
-            $('.multipleChosen').chosen({
-                placeholder_text_multiple: "Selecciona los rasgos...",
-                width: "100%"
-            });
-            
-            // Inicializar con código vacío
-            document.getElementById('code').innerHTML = '';
-        });
+        // Configurar Tippy.js con soporte para title attributes
+        function withTitleAttributeContent(tippy) {
+            return (targets, options = {}) => tippy(targets, {
+                ...options,
+                content(reference) {
+                    if (options.content) {
+                        return options.content
+                    }
+                    const title = reference.getAttribute('title')
+                    reference.removeAttribute('title')
+                    return title
+                }
+            })
+        }
+        
+        // window.tippy = withTitleAttributeContent(tippy)
+    </script>
+    
+    <script>
+        // Variables globales
+        const BASE_VIT = 450;
+        const BASE_EN = 150;
+        const BASE_FUE = 15;
+        const BASE_VEL = 3;
+        const PUNTOS_INICIALES = 6;
 
-        // Función para escapar HTML
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        const multiplicadores = {
+            'Fuerte': { vit: 1, en: 1, fue: 1.30, vel: 1 },
+            'Robusto': { vit: 1.30, en: 1, fue: 1, vel: 1 },
+            'Atlético': { vit: 1.15, en: 1, fue: 1.15, vel: 1 },
+            'Ágil': { vit: 1.15, en: 1, fue: 1.15, vel: 1 },
+            'Resistente': { vit: 1, en: 1.20, fue: 1, vel: 1 }
+        };
+
+        let puntosDisponibles = 0;
+        let puntosTotales = PUNTOS_INICIALES;
+        let rasgosSeleccionados = [];
+
+        // Mapa de incompatibilidades
+        const incompatibilidades = {
+            'Bello': ['Feo'],
+            'Bondadoso': ['Apático', 'Sádico'],
+            'Honorable': ['Manipulador', 'Sádico'],
+            'Astuto': ['Tonto'],
+            'Seductor': ['Desagradable'],
+            'Intrigante': ['Honorable'],
+            'Inteligente': ['Tonto'],
+            'Protector': ['Apático'],
+            'Valiente': ['Cobarde'],
+            'Sabio': ['Tonto', 'Vago'],
+            'Sádico': ['Honorable', 'Empático'],
+            'Corpulento': ['Ágil', 'Endeble'],
+            'Diplomático': ['Apático'],
+            'Gordo': ['Atlético', 'Ágil'],
+            'Endeble': ['Robusto', 'Fuerte', 'Corpulento'],
+            'Feo': ['Bello', 'Seductor'],
+            'Apático': ['Bondadoso'],
+            'Cobarde': ['Valiente'],
+            'Tonto': ['Inteligente', 'Sabio'],
+            'Ciego': ['Estilo de Combate']
+        };
+
+        // Lista de estilos de combate
+        const estilosCombate = ['Arco y Flechas', 'Armas Contundentes', 'Dagas', 'Escudos', 'Espadas', 'Hachas', 'Lanzas'];
+
+        // Función para abrir modal
+        function abrirModal() {
+            document.getElementById('infoModal').style.display = 'flex';
         }
 
-        // Función para obtener los rasgos seleccionados por categoría
-        function getSelectedOptions(category) {
-            var select = document.querySelector('select[name="rasgos"]');
-            var selectedOptions = [];
+        function cerrarModal() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
+
+        // Actualizar círculos de puntos (ranuras)
+        function actualizarPuntosCirculos() {
+            const contenedor = document.getElementById('puntosCirculos');
+            const balanceSpan = document.getElementById('puntosBalance');
+            const totalSpan = document.getElementById('puntosTotal');
             
-            if (select) {
-                var options = select.options;
-                for (var i = 0; i < options.length; i++) {
-                    if (options[i].selected && options[i].parentNode.label === category) {
-                        selectedOptions.push(options[i].value);
+            // Calcular puntos gastados en virtudes
+            const puntosVirtudes = rasgosSeleccionados
+                .filter(r => r.tipo === 'virtud')
+                .reduce((total, r) => total + Math.abs(parseInt(r.puntos)), 0);
+            
+            // Calcular puntos ganados por defectos
+            const puntosDefectos = rasgosSeleccionados
+                .filter(r => r.tipo === 'defecto')
+                .reduce((total, r) => total + parseInt(r.puntos), 0);
+            
+            // Total de ranuras disponibles
+            puntosTotales = PUNTOS_INICIALES + puntosDefectos;
+            
+            // Ranuras disponibles = total - virtudes gastadas
+            puntosDisponibles = puntosTotales - puntosVirtudes;
+            
+            balanceSpan.textContent = puntosDisponibles;
+            totalSpan.textContent = puntosTotales;
+            
+            let html = '';
+            
+            // Mostrar ranuras totales
+            for (let i = 0; i < puntosTotales; i++) {
+                if (i < puntosVirtudes) {
+                    // Ranuras ocupadas por virtudes
+                    html += '<span class="punto virtud">●</span>';
+                } else {
+                    // Ranuras disponibles
+                    html += '<span class="punto disponible">●</span>';
+                }
+            }
+            
+            contenedor.innerHTML = html;
+        }
+
+        // Obtener lista de incompatibilidades como texto
+        function getIncompatibilidadesTexto(valor) {
+            if (incompatibilidades[valor] && incompatibilidades[valor].length > 0) {
+                return 'Incompatible con: ' + incompatibilidades[valor].join(', ');
+            }
+            return '';
+        }
+
+// Función para formatear lista de incompatibles con "y" / "e"
+function formatearListaIncompatibles(lista) {
+    if (!lista || lista.length === 0) return '';
+    if (lista.length === 1) return lista[0];
+
+    const ultimo = lista.pop();
+    // Usar "e" si la siguiente palabra empieza por 'i' o 'I'
+    const conjuncion = /^[iI]/.test(ultimo) ? 'e' : 'y';
+    return lista.join(', ') + ' ' + conjuncion + ' ' + ultimo;
+}
+
+// Obtener razón por la cual una opción está deshabilitada (MEJORADA)
+function getRazonDeshabilitada($option, rasgosActuales, puntosDisponibles) {
+    const valor = $option.val();
+    const tipo = $option.data('tipo');
+    const puntos = parseInt($option.data('puntos'));
+    let razones = [];
+    let incompatibles = [];
+
+    // Verificar puntos insuficientes (solo para virtudes)
+    if (tipo === 'virtud' && puntosDisponibles < Math.abs(puntos)) {
+        razones.push('❌ Necesitas ' + Math.abs(puntos) + ' ranuras (disponibles: ' + puntosDisponibles + ')');
+    }
+
+    // Incompatibilidades definidas en el propio rasgo
+    if (incompatibilidades[valor]) {
+        const incompatiblesEncontrados = rasgosActuales.filter(r =>
+            incompatibilidades[valor].includes(r.valor)
+        ).map(r => r.valor);
+        incompatibles.push(...incompatiblesEncontrados);
+    }
+
+    // Incompatibilidades donde otros rasgos hacen incompatible a este
+    rasgosActuales.forEach(r => {
+        if (incompatibilidades[r.valor] && incompatibilidades[r.valor].includes(valor)) {
+            incompatibles.push(r.valor);
+        }
+    });
+
+    incompatibles = [...new Set(incompatibles)]; // eliminar duplicados
+
+    if (incompatibles.length > 0) {
+        const copia = [...incompatibles];
+        razones.push('⛔ Incompatible con: ' + formatearListaIncompatibles(copia));
+    }
+
+    return razones.join(' | ');
+}
+
+        // Inicializar tooltips para opciones deshabilitadas (mejorado)
+function inicializarTooltips() {
+    // Destruir tooltips existentes para evitar duplicados
+    $('.chosen-results li').each(function() {
+        if (this._tippy) this._tippy.destroy();
+    });
+
+    // Esperar un instante a que el DOM del dropdown esté listo
+    setTimeout(() => {
+        $('.chosen-results li.disabled-result').each(function() {
+            const $li = $(this);
+            const index = $li.data('option-array-index');
+            if (index === undefined) return;
+
+            // Obtener la opción real del select usando el índice
+            const $select = $('select[name="rasgos"]');
+            const $option = $select.find('option').eq(index);
+            if (!$option.length) return;
+
+            const razon = getRazonDeshabilitada($option, rasgosSeleccionados, puntosDisponibles);
+            if (razon) {
+                tippy(this, {
+                    content: razon,
+                    theme: 'principal',
+                    placement: 'right-end',
+                    arrow: false,
+                    duration: 0,
+                    followCursor: 'default',
+                    animation: 'scale',
+                    // Asegurar que el tooltip se muestre incluso si el elemento está dentro de un contenedor con overflow
+                    appendTo: document.body
+                });
+            }
+        });
+    }, 100);
+}
+
+        // Verificar incompatibilidades
+        function esCompatible(rasgoAComprobar, rasgosActuales) {
+            // Si el rasgo tiene incompatibilidades definidas
+            if (incompatibilidades[rasgoAComprobar.valor]) {
+                for (let incompatible of incompatibilidades[rasgoAComprobar.valor]) {
+                    if (rasgosActuales.some(r => r.valor === incompatible)) {
+                        return false;
                     }
                 }
             }
-
-            return selectedOptions;
+            
+            // Verificar si algún rasgo actual es incompatible con el nuevo
+            for (let rasgoActual of rasgosActuales) {
+                if (incompatibilidades[rasgoActual.valor] && 
+                    incompatibilidades[rasgoActual.valor].includes(rasgoAComprobar.valor)) {
+                    return false;
+                }
+            }
+            
+            return true;
         }
 
-        // Función para mostrar el toast
-        function mostrarToast() {
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+        // Actualizar estado de opciones en Chosen
+function actualizarOpcionesDeshabilitadas() {
+    const $select = $('select[name="rasgos"]');
+    const selectedValues = $select.val() || [];
+    
+    // Recolectar rasgos seleccionados
+    rasgosSeleccionados = [];
+    selectedValues.forEach(val => {
+        const option = $select.find(`option[value="${val}"]`);
+        rasgosSeleccionados.push({
+            valor: val,
+            tipo: option.data('tipo'),
+            puntos: option.data('puntos')
+        });
+    });
+    
+    // Actualizar círculos de puntos
+    actualizarPuntosCirculos();
+    
+    // Deshabilitar opciones
+    $select.find('option').each(function() {
+        const $option = $(this);
+        if ($option.val() && !selectedValues.includes($option.val())) {
+            const puntos = parseInt($option.data('puntos'));
+            const tipo = $option.data('tipo');
+            
+            let puntosSuficientes = true;
+            if (tipo === 'virtud') {
+                puntosSuficientes = puntosDisponibles >= Math.abs(puntos);
+            }
+            
+            const compatible = esCompatible({
+                valor: $option.val(),
+                tipo: tipo,
+                puntos: puntos
+            }, rasgosSeleccionados);
+            
+            if (!puntosSuficientes || !compatible) {
+                $option.attr('disabled', 'disabled');
+            } else {
+                $option.removeAttr('disabled');
+            }
+        } else {
+            $option.removeAttr('disabled');
         }
+    });
+    
+    // Actualizar Chosen
+    $select.trigger('chosen:updated');
+    
+    // Refrescar tooltips después de que Chosen haya actualizado el DOM
+    setTimeout(inicializarTooltips, 150);
+}
 
-        // Función para copiar el código
+        // Inicializar
+        $(document).ready(function() {
+            // Inicializar Chosen para rasgos
+            $('.multipleChosen:not(.combate-chosen)').chosen({
+                placeholder_text_multiple: "Selecciona virtudes y defectos...",
+                width: "100%",
+                disable_search_threshold: 10,
+                display_disabled_options: true
+            }).on('change', function(evt, params) {
+                actualizarOpcionesDeshabilitadas();
+                aplicarColoresAChosen();
+                
+                // Verificar si se seleccionó Ciego para deshabilitar combate
+                const selectedValues = $(this).val() || [];
+                if (selectedValues.includes('Ciego')) {
+                    $('.combate-chosen').val([]).trigger('chosen:updated');
+                    $('#combateError').css('display', 'flex');
+                    $('#combateErrorText').text('Los personajes ciegos no pueden tener estilos de combate.');
+                }
+            });
+
+            // Inicializar Chosen para estilos de combate con control de máximo 2
+            $('.combate-chosen').chosen({
+                placeholder_text_multiple: "Selecciona hasta 2 estilos...",
+                width: "100%",
+                max_selected_options: 2,
+                disable_search_threshold: 10
+            }).on('change', function(evt, params) {
+                const selectedCount = $(this).val() ? $(this).val().length : 0;
+                const errorDiv = document.getElementById('combateError');
+                const errorText = document.getElementById('combateErrorText');
+                
+                // Verificar si el personaje es ciego
+                const rasgosSelect = $('select[name="rasgos"]');
+                const selectedRasgos = rasgosSelect.val() || [];
+                
+                if (selectedRasgos.includes('Ciego')) {
+                    // Si es ciego, deshabilitar y vaciar selección de combate
+                    $(this).val([]).trigger('chosen:updated');
+                    errorDiv.style.display = 'flex';
+                    errorText.textContent = 'Los personajes ciegos no pueden tener estilos de combate.';
+                } else if (selectedCount > 2) {
+                    errorDiv.style.display = 'flex';
+                    errorText.textContent = 'Solo puedes seleccionar un máximo de 2 estilos de combate.';
+                    if (params && params.deselected) {
+                        $(this).val([params.deselected]).trigger('chosen:updated');
+                    }
+                } else {
+                    errorDiv.style.display = 'none';
+                }
+            });
+
+            // Actualizar cuando se selecciona Ciego
+            $('select[name="rasgos"]').on('change', function() {
+                const selectedRasgos = $(this).val() || [];
+                const combateSelect = $('.combate-chosen');
+                const errorDiv = document.getElementById('combateError');
+                const errorText = document.getElementById('combateErrorText');
+                const tieneCiego = selectedRasgos.includes('Ciego');
+                
+                if (tieneCiego) {
+                    combateSelect.val([]).trigger('chosen:updated');
+                    errorDiv.style.display = 'flex';
+                    errorText.innerHTML = '⛔ Los personajes ciegos no pueden tener estilos de combate.';
+                    combateSelect.find('option').prop('disabled', true);
+                } else {
+                    combateSelect.find('option').prop('disabled', false);
+                    if (!combateSelect.val() || combateSelect.val().length === 0) {
+                        errorDiv.style.display = 'none';
+                    }
+                }
+                combateSelect.trigger('chosen:updated');
+            });
+
+            // Validar bidireccionalidad: si intentan agregar Ciego teniendo combate seleccionado
+            this.addEventListener('combateChange', function() {
+                const rasgosSelect = $('select[name="rasgos"]');
+                const combateSelect = $('.combate-chosen');
+                if (rasgosSelect.val().includes('Ciego') && combateSelect.val() && combateSelect.val().length > 0) {
+                    combateSelect.val([]).trigger('chosen:updated');
+                }
+            });
+
+            // Aplicar colores a virtudes/defectos
+            function aplicarColoresAChosen() {
+                $('.chosen-choices li.search-choice').each(function() {
+                    if ($(this).closest('.chosen-container').prev('select').attr('name') === 'rasgos') {
+                        const texto = $(this).find('span').text();
+                        const opcion = $('select[name="rasgos"] option').filter(function() {
+                            return $(this).text().includes(texto);
+                        }).first();
+                        
+                        const tipo = opcion.data('tipo');
+                        if (tipo === 'virtud') {
+                            $(this).addClass('virtud-choice');
+                        } else if (tipo === 'defecto') {
+                            $(this).addClass('defecto-choice');
+                        }
+                    }
+                });
+            }
+
+            // Inicializar círculos
+            actualizarPuntosCirculos();
+            
+            // Cerrar modal con Escape
+            $(document).keydown(function(e) {
+                if (e.key === 'Escape') {
+                    cerrarModal();
+                }
+            });
+
+            // Inicializar tooltips para el icono de información
+            tippy('.puntos-info i', {
+                content: 'Sistema de Rasgos: Comienza con 6 puntos. Los defectos dan más puntos. Balance debe ser 0 o positivo.',
+                theme: 'principal',
+                placement: 'right-end',
+                arrow: false,
+                duration: 0,
+                followCursor: 'default',
+                animation: 'scale'
+            });
+
+            // Inicializar tooltips para opciones de combate
+            tippy('.combate-chosen', {
+                content: 'Máximo 2 estilos de combate. Si seleccionas Ciego, no puedes elegir combate.',
+                theme: 'principal',
+                placement: 'top',
+                arrow: false,
+                duration: 0,
+                followCursor: 'default',
+                animation: 'scale'
+            });
+        });
+
+        // Función para copiar código (sin cambios)
         function copiarCodigo() {
             const codigo = document.getElementById('code').innerText;
+            const button = document.getElementById('copyButton');
+            const icon = button.querySelector('i');
+            const text = button.querySelector('span');
+            
             if (codigo && codigo.trim() !== '') {
                 navigator.clipboard.writeText(codigo).then(() => {
-                    mostrarToast();
+                    button.classList.add('copied');
+                    icon.className = 'fa-regular fa-check-circle';
+                    text.textContent = 'Código copiado al portapapeles';
+                    
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        icon.className = 'fa-regular fa-copy';
+                        text.textContent = 'Copiar Código';
+                    }, 2000);
+                    
                 }).catch(err => {
                     console.error('Error al copiar: ', err);
-                    // Fallback para navegadores antiguos
                     const textarea = document.createElement('textarea');
                     textarea.value = codigo;
                     document.body.appendChild(textarea);
                     textarea.select();
                     document.execCommand('copy');
                     document.body.removeChild(textarea);
-                    mostrarToast();
+                    
+                    button.classList.add('copied');
+                    icon.className = 'fa-regular fa-check-circle';
+                    text.textContent = '¡Copiado!';
+                    
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        icon.className = 'fa-regular fa-copy';
+                        text.textContent = 'Copiar Código';
+                    }, 2000);
                 });
             }
         }
 
-        // Función principal de generación
+        // Función para obtener estilos de combate del Chosen (sin cambios)
+        function getEstilosCombate() {
+            const select = document.querySelector('select[name="estilo_combate"]');
+            if (select) {
+                return Array.from(select.selectedOptions).map(opt => opt.value);
+            }
+            return [];
+        }
+
+        // Función para calcular atributos con modificadores de rasgos (sin cambios)
+        function calcularAtributosConRasgos(base, atributo) {
+            let valor = base;
+            
+            rasgosSeleccionados.forEach(rasgo => {
+                switch(rasgo.valor) {
+                    case 'Gordo':
+                        if (atributo === 'vel') valor *= 0.8;
+                        break;
+                    case 'Endeble':
+                        if (atributo === 'fue') valor *= 0.8;
+                        break;
+                    case 'Manco':
+                        if (atributo === 'fue') valor *= 0.6;
+                        break;
+                    case 'Cojo':
+                        if (atributo === 'vel') valor *= 0.6;
+                        break;
+                    case 'Marcado':
+                        if (atributo === 'vit') valor *= 0.9;
+                        break;
+                    case 'Enano':
+                        if (atributo === 'fue') valor *= 0.75;
+                        if (atributo === 'vit' || atributo === 'vel') valor *= 0.8;
+                        break;
+                    case 'Corpulento':
+                        if (atributo === 'vit') valor *= 1.1;
+                        break;
+                }
+            });
+            
+            return Math.round(valor);
+        }
+
+        // Función principal de generación (sin cambios)
         function generar() {
             try {
                 // Obtener valores del formulario
@@ -969,46 +1661,126 @@
                 var oficio = document.querySelector('input[name="oficio"]')?.value || 'Ocupación del personaje';
                 var estadocivil = document.querySelector('input[name="estadocivil"]')?.value || 'Estado civil del personaje';
                 var afi = document.querySelector('input[name="afi"]')?.value || 'Casa/Facción a la que pertenece';
+                var lema = document.querySelector('input[name="lema"]')?.value ? '"' + document.querySelector('input[name="lema"]').value + '"' : '"Lema de la facción, cita de batalla o título honorífico del personaje."';
                 
-                // Nuevos campos
                 var ascendencia = document.querySelector('select[name="ascendencia"]')?.value || 'Ascendencia';
                 var religion = document.querySelector('select[name="religion"]')?.value || 'Religión';
-                var constitucion = document.querySelector('select[name="constitucion"]')?.value || 'Constitución';
+                var constitucion = document.querySelector('select[name="constitucion"]')?.value || 'Atlético';
                 var ubicacion = document.querySelector('input[name="ubicacion"]')?.value || '¿En qué región reside el personaje?';
                 var asentamiento = document.querySelector('input[name="asentamiento"]')?.value || 'Asentamiento';
                 var region = document.querySelector('input[name="region"]')?.value || 'Región';
                 var orientacion = document.querySelector('input[name="orientacion"]')?.value || 'Sexualidad del personaje';
-                var rango = document.querySelector('input[name="rango"]')?.value || 'I';
-                var estilo_combate = document.querySelector('input[name="estilo_combate"]')?.value || 'Estilo de combate del personaje';
+                var estilosCombate = getEstilosCombate();
 
-                // Obtener rasgos por categoría
-                var rasgosPositivos = getSelectedOptions('Rasgos Positivos');
-                var rasgosNegativos = getSelectedOptions('Rasgos Negativos');
-                
-                // Formatear rasgos
-                var virtudesHTML = '';
-                if (rasgosPositivos.length > 0) {
-                    virtudesHTML = rasgosPositivos.map(r => '<span class="virtud"><strong class="virtud">Virtud</strong> ' + r + '</span>').join('\n');
-                } else {
-                    virtudesHTML = '<span class="virtud"><strong class="virtud">Virtud</strong></span>\n<span class="virtud"><strong class="virtud">Virtud</strong></span>';
+                // Calcular atributos base con constitución
+                const mult = multiplicadores[constitucion] || multiplicadores['Atlético'];
+                let vitFinal = Math.round(BASE_VIT * mult.vit);
+                let enFinal = Math.round(BASE_EN * mult.en);
+                let fueFinal = Math.round(BASE_FUE * mult.fue);
+                let velFinal = Math.round(BASE_VEL * mult.vel);
+
+                // Aplicar modificadores de rasgos
+                vitFinal = calcularAtributosConRasgos(vitFinal, 'vit');
+                enFinal = calcularAtributosConRasgos(enFinal, 'en');
+                fueFinal = calcularAtributosConRasgos(fueFinal, 'fue');
+                velFinal = calcularAtributosConRasgos(velFinal, 'vel');
+
+                // Calcular atributos sociales
+                let carisma = 0;
+                let persuasion = 0;
+                let sabiduria = 0;
+                let liderazgo = 0;
+
+                rasgosSeleccionados.forEach(rasgo => {
+                    switch(rasgo.valor) {
+                        case 'Bello':
+                            carisma += 2;
+                            persuasion += 1;
+                            break;
+                        case 'Bondadoso':
+                            carisma += 2;
+                            break;
+                        case 'Honorable':
+                            carisma += 2;
+                            break;
+                        case 'Astuto':
+                            persuasion += 2;
+                            sabiduria += 1;
+                            break;
+                        case 'Líder':
+                            liderazgo += 1;
+                            break;
+                        case 'Seductor':
+                            persuasion += 3;
+                            break;
+                        case 'Intrigante':
+                            persuasion += 4;
+                            break;
+                        case 'Inteligente':
+                            sabiduria += 2;
+                            break;
+                        case 'Protector':
+                            liderazgo += 1;
+                            break;
+                        case 'Sabio':
+                            sabiduria += 4;
+                            break;
+                        case 'Diplomático':
+                            carisma += 4;
+                            break;
+                        case 'Feo':
+                            carisma -= 2;
+                            persuasion -= 2;
+                            break;
+                        case 'Apático':
+                            carisma -= 2;
+                            break;
+                        case 'Atormentado':
+                            carisma -= 2;
+                            break;
+                        case 'Tonto':
+                            sabiduria -= 4;
+                            break;
+                    }
+                });
+
+                // Obtener rasgos seleccionados para el HTML
+                function getSelectedOptions(category) {
+                    var select = document.querySelector('select[name="rasgos"]');
+                    var selectedOptions = [];
+                    
+                    if (select) {
+                        var options = select.options;
+                        for (var i = 0; i < options.length; i++) {
+                            var optionCategory = options[i].parentNode.label;
+                            if (options[i].selected && optionCategory === category) {
+                                selectedOptions.push(options[i].value);
+                            }
+                        }
+                    }
+                    return selectedOptions;
                 }
+
+                var virtudes = getSelectedOptions('Virtudes');
+                var defectos = getSelectedOptions('Defectos');
                 
-                var defectosHTML = '';
-                if (rasgosNegativos.length > 0) {
-                    defectosHTML = rasgosNegativos.map(d => '<span class="defecto"><strong class="defecto">Defecto</strong> ' + d + '</span>').join('\n');
-                } else {
-                    defectosHTML = '<span class="defecto"><strong class="defecto">Defecto</strong></span>\n<span class="defecto"><strong class="defecto">Defecto</strong></span>';
+                var virtudesHTML = virtudes.map(v => '<strong class="virtud">' + v + '</strong>').join('<br>\n');
+                var defectosHTML = defectos.map(d => '<strong class="defecto">' + d + '</strong>').join('<br>\n');
+                var estilosCombateTexto = estilosCombate.length > 0 ? estilosCombate.join(' / ') : 'Estilo de combate del personaje';
+
+                // Si es ciego, forzar mensaje de "No puede tener estilos de combate"
+                if (rasgosSeleccionados.some(r => r.valor === 'Ciego')) {
+                    estilosCombateTexto = 'No puede tener estilos de combate (Ciego)';
                 }
-                
-                // Obtener la fecha actual
+
+                // Fecha
                 var fechaActual = new Date();
                 var dia = fechaActual.getDate();
                 var mes = fechaActual.getMonth() + 1;
                 var anio = fechaActual.getFullYear();
-
                 var fechaFormateada = (dia < 10 ? '0' : '') + dia + '/' + (mes < 10 ? '0' : '') + mes + '/' + anio;
 
-                // Construir el código HTML como texto plano (sin escapar todavía)
+                // Construir código HTML
                 var codigoHTML = '<div class="personaje-ficha">\n';
                 codigoHTML += '<div class="ficha-header">\n';
                 codigoHTML += '<div class="ficha-sidebar">\n';
@@ -1020,7 +1792,7 @@
                 codigoHTML += '</div>\n';
                 codigoHTML += '<div class="ficha-header-content">\n';
                 codigoHTML += '<h1>' + ic + '</h1>\n';
-                codigoHTML += '<p>"Lema de la facción, cita de batalla o título honorífico del personaje."</p>\n';
+                codigoHTML += '<p>' + lema + '</p>\n';
                 codigoHTML += '</div>\n';
                 codigoHTML += '</div>\n';
                 codigoHTML += '<div class="ficha-info"><strong>Nombre OOC</strong> ' + ooc + '\n';
@@ -1032,44 +1804,55 @@
                 codigoHTML += '<strong>Afiliación</strong> ' + afi + '\n';
                 codigoHTML += '<strong>Estado civil</strong> ' + estadocivil + '\n';
                 codigoHTML += '<strong>Orientación sexual</strong> ' + orientacion + '\n';
-                codigoHTML += '<strong>Rango</strong> ' + rango + '\n';
-                codigoHTML += '<strong>Estilo de combate</strong> ' + estilo_combate + '\n';
+                codigoHTML += '<strong>Estilo de combate</strong> ' + estilosCombateTexto + '\n';
                 codigoHTML += '<strong>Ocupación</strong> ' + oficio + '\n';
                 codigoHTML += '<strong>Experiencia</strong> [color=green]<b>000</b>[/color] / [color=red]<b>000</b>[/color] / [color=gray]<b>000</b>[/color]\n';
                 codigoHTML += '<strong>Dragones de Oro</strong> [color=gold]<b>250</b>[/color]</div>\n';
                 codigoHTML += '<div class="ficha-atributos">\n';
                 codigoHTML += '<h3>Atributos físicos</h3>\n';
                 codigoHTML += '<div class="atributos-grid">\n';
-                codigoHTML += '<div class="atributo-modulo"><span>Vitalidad</span>450</div>\n';
-                codigoHTML += '<div class="atributo-modulo"><span>Energía</span>150</div>\n';
-                codigoHTML += '<div class="atributo-modulo"><span>Fuerza</span>15</div>\n';
-                codigoHTML += '<div class="atributo-modulo"><span>Velocidad</span>3</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Vitalidad</span>' + vitFinal + '</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Energía</span>' + enFinal + '</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Fuerza</span>' + fueFinal + '</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Velocidad</span>' + velFinal + '</div>\n';
                 codigoHTML += '</div>\n';
                 codigoHTML += '</div>\n';
                 codigoHTML += '<div class="ficha-atributos">\n';
                 codigoHTML += '<h3>Atributos sociales</h3>\n';
                 codigoHTML += '<div class="atributos-grid">\n';
-                codigoHTML += '<div class="atributo-modulo"><span>Carisma</span>0</div>\n';
-                codigoHTML += '<div class="atributo-modulo"><span>Persuasión</span>0</div>\n';
-                codigoHTML += '<div class="atributo-modulo"><span>Sabiduría</span>0</div>\n';
-                codigoHTML += '<div class="atributo-modulo"><span>Liderazgo</span>0</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Carisma</span>' + carisma + '</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Persuasión</span>' + persuasion + '</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Sabiduría</span>' + sabiduria + '</div>\n';
+                codigoHTML += '<div class="atributo-modulo"><span>Liderazgo</span>' + liderazgo + '</div>\n';
                 codigoHTML += '</div>\n';
                 codigoHTML += '</div>\n';
                 codigoHTML += '<div class="ficha-textos">\n';
                 codigoHTML += '<div class="textos-seccion">\n';
                 codigoHTML += '<h1>Rasgos</h1>\n';
-                codigoHTML += '<strong>Ascendencia</strong> ' + ascendencia + '\n';
-                codigoHTML += '<strong>Religión</strong> ' + religion + '\n';
-                codigoHTML += '<strong>Constitución</strong> ' + constitucion + '\n';
-                codigoHTML += virtudesHTML + '\n';
-                codigoHTML += defectosHTML + '\n';
+                
+                if (ascendencia && ascendencia !== 'Ascendencia') {
+                    codigoHTML += '<strong>' + ascendencia + '</strong><br>\n';
+                }
+                if (religion && religion !== 'Religión') {
+                    codigoHTML += '<strong>' + religion + '</strong><br>\n';
+                }
+                if (constitucion && constitucion !== 'Atlético') {
+                    codigoHTML += '<strong>' + constitucion + '</strong><br>\n';
+                }
+                
+                codigoHTML += virtudesHTML;
+                if (virtudesHTML && defectosHTML) {
+                    codigoHTML += '<br>\n';
+                }
+                codigoHTML += defectosHTML;
+                
                 codigoHTML += '</div>\n';
                 codigoHTML += '<div class="textos-seccion">\n';
                 codigoHTML += '<h1>Habilidades</h1>\n';
-                codigoHTML += '<strong>Atacar</strong>\n';
-                codigoHTML += '<strong>Evadir</strong>\n';
-                codigoHTML += '<strong>Retirada</strong>\n';
-                codigoHTML += '<strong>¡Auxilio!</strong>\n';
+                codigoHTML += '<strong>Atacar</strong><br>\n';
+                codigoHTML += '<strong>Evadir</strong><br>\n';
+                codigoHTML += '<strong>Retirada</strong><br>\n';
+                codigoHTML += '<strong>¡Auxilio!</strong><br>\n';
                 codigoHTML += '</div>\n';
                 codigoHTML += '<div class="textos-seccion">\n';
                 codigoHTML += '<h1>Pertenencias</h1>\n';
@@ -1089,7 +1872,13 @@
                 codigoHTML += '</div>\n';
                 codigoHTML += '</div></div>';
 
-                // Escapar el HTML para que se muestre como texto
+                // Escapar HTML
+                function escapeHtml(text) {
+                    const div = document.createElement('div');
+                    div.textContent = text;
+                    return div.innerHTML;
+                }
+                
                 document.getElementById("code").innerHTML = escapeHtml(codigoHTML);
             } catch (error) {
                 console.error('Error al generar el código:', error);
@@ -1097,10 +1886,10 @@
             }
         }
 
-        // No generar código por defecto - mantener vacío
-        // window.onload = function() {
-        //     generar();
-        // };
+        // Función para actualizar atributos
+        function actualizarAtributos() {
+            // Solo para consola, no necesario para UI
+        }
     </script>
 </body>
 </html>
